@@ -8,7 +8,7 @@ Este projeto utiliza o framework Angular para criar um site interativo e intuiti
  - O design do site é construído para proporcionar uma experiência de usuário fluida, com uma navegação intuitiva que torna simples a escolha e requisição dos lanches desejados.
 
  ### Catálogo de Lanches
- - Explore um catálogo completo de lanches disponíveis, com informações detalhadas sobre cada opção, incluindo ingredientes, preços e avaliações dos usuários.
+ - Explore um catálogo completo de lanches disponíveis, com informações detalhadas sobre cada opção, incluindo ingredientes e preços.
 
 ### Carrinho de Compras
  - Adicione facilmente os lanches desejados ao carrinho de compras, gerenciando quantidades e opções personalizadas conforme necessário.
