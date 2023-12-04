@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BACK.Model;
 
-public partial class PodraoDbContext : DbContext
+public partial class PodraoBcContext : DbContext
 {
-    public PodraoDbContext()
+    public PodraoBcContext()
     {
     }
 
-    public PodraoDbContext(DbContextOptions<PodraoDbContext> options)
+    public PodraoBcContext(DbContextOptions<PodraoBcContext> options)
         : base(options)
     {
     }
@@ -37,13 +37,13 @@ public partial class PodraoDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=CT-C-001YF\\SQLEXPRESS01;Initial Catalog=PodraoDb;Integrated Security=True;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("Data Source=CT-C-001YF\\SQLEXPRESS01;Initial Catalog=PodraoBc;Integrated Security=True;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Adm>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Adm__3214EC275CD39E8B");
+            entity.HasKey(e => e.Id).HasName("PK__Adm__3214EC270E47DFC2");
 
             entity.ToTable("Adm");
 
@@ -63,14 +63,11 @@ public partial class PodraoDbContext : DbContext
             entity.Property(e => e.Senha)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.TipoUsuario)
-                .HasMaxLength(100)
-                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Cardapio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cardapio__3214EC27A277AFB8");
+            entity.HasKey(e => e.Id).HasName("PK__Cardapio__3214EC271F03F6AB");
 
             entity.ToTable("Cardapio");
 
@@ -85,7 +82,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cliente__3214EC27BB9C2391");
+            entity.HasKey(e => e.Id).HasName("PK__Cliente__3214EC2729C2A1DC");
 
             entity.ToTable("Cliente");
 
@@ -108,9 +105,6 @@ public partial class PodraoDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Senha).IsUnicode(false);
             entity.Property(e => e.TerminodoPedido).HasColumnType("datetime");
-            entity.Property(e => e.TipoUsuario)
-                .HasMaxLength(100)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.Imagem).WithMany(p => p.Clientes)
                 .HasForeignKey(d => d.ImagemId)
@@ -119,7 +113,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Imagem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Imagem__3214EC273604D0A1");
+            entity.HasKey(e => e.Id).HasName("PK__Imagem__3214EC27F0C62332");
 
             entity.ToTable("Imagem");
 
@@ -128,7 +122,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Pedido>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Pedido__3214EC2714A3117B");
+            entity.HasKey(e => e.Id).HasName("PK__Pedido__3214EC272AF59B10");
 
             entity.ToTable("Pedido");
 
@@ -156,7 +150,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<PedidodoCliente>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Pedidodo__3214EC27BE80C75F");
+            entity.HasKey(e => e.Id).HasName("PK__Pedidodo__3214EC27A976DC8A");
 
             entity.ToTable("PedidodoCliente");
 
@@ -176,7 +170,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Perfil>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Perfil__3214EC27F258ACA1");
+            entity.HasKey(e => e.Id).HasName("PK__Perfil__3214EC27BF2806A0");
 
             entity.ToTable("Perfil");
 
@@ -197,7 +191,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Produto>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Produto__3214EC275238EF9B");
+            entity.HasKey(e => e.Id).HasName("PK__Produto__3214EC27ACEC1AB3");
 
             entity.ToTable("Produto");
 
@@ -213,7 +207,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Promocao>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promocao__3214EC27A4984047");
+            entity.HasKey(e => e.Id).HasName("PK__Promocao__3214EC27355C76B3");
 
             entity.ToTable("Promocao");
 
@@ -235,7 +229,7 @@ public partial class PodraoDbContext : DbContext
 
         modelBuilder.Entity<Totem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Totem__3214EC2721666BCE");
+            entity.HasKey(e => e.Id).HasName("PK__Totem__3214EC27D3A4D1E1");
 
             entity.ToTable("Totem");
 

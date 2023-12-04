@@ -10,12 +10,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BACK.Controllers;
 
+using System.Security.Cryptography;
 using DTO;
 using Model;
 using Services;
 
+using Trevisharp.Security.Jwt;
+
 [ApiController]
 [Route("user")]
+
 public class UserController : ControllerBase
 {
     [HttpPost("login")]
@@ -23,10 +27,14 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Login(
         [FromBody]UserData user,
         [FromServices]IClienteservice service,
-        [FromServices]ISecurityService security)
+        [FromServices]ISecurityService security,
+        [FromServices]CryptoService crypto)
     {
+        System.Console.WriteLine(user.Login);
+        System.Console.WriteLine(user.Password);
         var loggedUser = await service
             .GetByLogin(user.Login);
+        System.Console.WriteLine(loggedUser);
         
         if (loggedUser == null)
             return Unauthorized("Usuário não existe.");
@@ -34,29 +42,32 @@ public class UserController : ControllerBase
         var password = await security.HashPassword(
             user.Password, loggedUser.Salt
         );
+        System.Console.WriteLine(password);
         var realPassword = loggedUser.Senha;
         if (password != realPassword)
             return Unauthorized("Senha incorreta.");
         
-        var jwt = await security.GenerateJwt(new {
+        var jwt = crypto.GetToken(new {
             id = loggedUser.Id,
-            photoId = loggedUser.ImagemId
+            nome = loggedUser.Nome,
+            email = loggedUser.Email,
+            cpf = loggedUser.Cpf,
+            senha = loggedUser.Senha,
         });
-        
         return Ok(new { jwt });
     }
 
     [HttpPost("register")]
     [EnableCors("DefaultPolicy")]
     public async Task<IActionResult> Create(
-        [FromBody]UserData user,
+        [FromBody]UserDataRegister user,
         [FromServices]IClienteservice service)
     {
         var errors = new List<string>();
         if (user is null || user.Login is null)
             errors.Add("É necessário informar um login.");
-        if (user.Login.Length < 5)
-            errors.Add("O Login deve conter ao menos 5 caracteres.");
+        if (user.Login.Length < 11)
+            errors.Add("O Login deve conter ao menos 11 caracteres.");
 
         if (errors.Count > 0)
             return BadRequest(errors);
@@ -77,7 +88,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetImage(
         int photoId,
         [FromServices]ISecurityService security,
-        [FromServices]PodraoDbContext ctx)
+        [FromServices]PodraoBcContext ctx)
     {
         var query =
             from image in ctx.Imagems
@@ -124,7 +135,7 @@ public class UserController : ControllerBase
         Imagem img = new Imagem();
         img.Foto = data;
 
-        PodraoDbContext ctx = new PodraoDbContext();
+        PodraoBcContext ctx = new PodraoBcContext();
         ctx.Add(img);
         await ctx.SaveChangesAsync();
         

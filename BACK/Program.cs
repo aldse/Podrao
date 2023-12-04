@@ -1,6 +1,37 @@
+using System;
+using System.Net;
+using System.Net.Http;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Trevisharp.Security.Jwt;
+
+using BACK.Model;
+using BACK.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<PodraoBcContext>();
+builder.Services.AddTransient<IClienteservice, ClienteService>();
+builder.Services.AddTransient<IProdutoService, ProdutoService>();
+builder.Services.AddTransient<IPromocaoService, PromocaoService>();
+builder.Services.AddSingleton<CryptoService>(p => new (){
+    InternalKeySize =24,
+    UpdatePeriod = TimeSpan.FromDays(1)
+});
+builder.Services.AddSingleton<ISecurityService, SecurityService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DefaultPolicy",
+        policy => {
+            policy
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+        });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,6 +46,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

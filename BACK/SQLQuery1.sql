@@ -44,7 +44,6 @@ create table Adm(
 	Cpf varchar(20) not null,
 	Senha varchar(20) not null,
 	Genero varchar(20) not null,
-	TipoUsuario varchar(100) not null
 );
 go
 
@@ -69,7 +68,6 @@ create table Cliente(
 	Senha varchar(MAX) not null,
 	Salt varchar(200) not null,
 	Genero varchar(20) not null,
-	TipoUsuario varchar(100) not null,
 	TerminodoPedido datetime null,
 	ImagemID int references Imagem(ID)
 );
