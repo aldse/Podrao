@@ -23,7 +23,7 @@ public class SecurityService : ISecurityService
 
         var hashBytes = getHash(saltBytes, passwordBytes);
         var hash = Convert.ToBase64String(hashBytes);
-        
+
         return hash;
     }
 
@@ -31,8 +31,18 @@ public class SecurityService : ISecurityService
     {
         string password = await getPassword();
         var base64Password = toBase64(password);
-        var jwt = getJwt(obj, base64Password);
+        var id = obj.GetType().GetProperty("Id")?.GetValue(obj);
+        Console.WriteLine($"ID do usuário: {id}");
+        var jwt = getJwt(new
+        {
+            id = obj.GetType().GetProperty("Id")?.GetValue(obj),
+            nome = obj.GetType().GetProperty("Nome")?.GetValue(obj),
+            email = obj.GetType().GetProperty("Email")?.GetValue(obj),
+            cpf = obj.GetType().GetProperty("Cpf")?.GetValue(obj),
+            senha = obj.GetType().GetProperty("Senha")?.GetValue(obj),
+        }, base64Password);
         return jwt;
+
     }
 
     public async Task<T> ValidateJwt<T>(string jwt)
@@ -71,7 +81,7 @@ public class SecurityService : ISecurityService
             var data = line.Split('=');
             if (data[0] != "PASSWORD")
                 continue;
-            
+
             return data[1];
         }
         throw new Exception(
@@ -94,7 +104,8 @@ public class SecurityService : ISecurityService
 
     private string getJsonHeader()
     {
-        var headerObj = new {
+        var headerObj = new
+        {
             alg = "HS256",
             typ = "JWT"
         };
@@ -116,7 +127,7 @@ public class SecurityService : ISecurityService
     {
         var passwordBytes = Convert
             .FromBase64String(toBase64(password));
-        
+
         var content = $"{header}.{payload}";
         var contentBytes = Encoding
             .UTF8.GetBytes(content);

@@ -21,13 +21,7 @@ public partial class Cliente
 
     public DateTime? TerminodoPedido { get; set; }
 
-    public int? ImagemId { get; set; }
-
-    public virtual Imagem? Imagem { get; set; }
-
     public virtual ICollection<PedidodoCliente> PedidodoClientes { get; } = new List<PedidodoCliente>();
 
     public virtual ICollection<Pedido> Pedidos { get; } = new List<Pedido>();
-
-    public virtual ICollection<Perfil> Perfils { get; } = new List<Perfil>();
 }

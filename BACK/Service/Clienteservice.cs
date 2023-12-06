@@ -10,9 +10,9 @@ using Model;
 
 public class ClienteService : IClienteservice
 {
-    PodraoBcContext ctx;
+    PodraoBnc1Context ctx;
     ISecurityService security;
-    public ClienteService(PodraoBcContext ctx, ISecurityService security)
+    public ClienteService(PodraoBnc1Context ctx, ISecurityService security)
     {
         this.ctx = ctx;
         this.security = security;

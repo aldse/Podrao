@@ -7,8 +7,8 @@ using Model;
 
 public class ProdutoService : IProdutoService
 {
-    PodraoBcContext ctx;
-    public ProdutoService(PodraoBcContext ctx)
+    PodraoBnc1Context ctx;
+    public ProdutoService(PodraoBnc1Context ctx)
     {
         this.ctx = ctx;
     }

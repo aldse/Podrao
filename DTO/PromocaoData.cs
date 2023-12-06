@@ -5,5 +5,6 @@ public class PromocaoData
     public decimal Preco { get; set; }
     public string DescricaoPromocao { get; set; }
     public string NomePromocao { get; set; }
+    public int ProdutoId { get; set; }
 
 }

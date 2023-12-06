@@ -12,21 +12,7 @@ using Services;
 
 public class PromocaoController : ControllerBase
 {
-    // [HttpPost("procurar")]
-    // [EnableCors("DefaultPolicy")]
-    // public async Task<IActionResult> Procurar(
-    //     [FromBody] ProdutoData produto,
-    //     [FromServices] IProdutoService service)
-    // {
-    //     System.Console.WriteLine(produto.Procurar);
-    //     var procurarProduto = await service
-    //         .GetByProcurar(produto.Procurar);
-    //     System.Console.WriteLine(procurarProduto);
-
-    //     return Ok();
-    // }
-
-    [HttpPost("register")]
+    [HttpPost("addpromocao")]
     [EnableCors("DefaultPolicy")]
     public async Task<IActionResult> Create(
         [FromBody] PromocaoData promocao,
@@ -34,12 +20,12 @@ public class PromocaoController : ControllerBase
     {
         var errors = new List<string>();
         if (promocao.NomePromocao.Length < 2)
-            errors.Add("O produto deve conter mais letras.");
-        if(promocao.Preco < 1)
+            errors.Add("A promoção deve conter mais letras.");
+        if (promocao.Preco < 1)
             errors.Add("Valor inválido.");
-        if(promocao.Preco > 999)
+        if (promocao.Preco > 999)
             errors.Add("Valor inválido.");
-        if(promocao.DescricaoPromocao == null)
+        if (promocao.DescricaoPromocao == null)
             errors.Add("Deve contér uma descrição.");
         if (errors.Count > 0)
         {
@@ -50,5 +36,20 @@ public class PromocaoController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("todaspromocoes")]
+    [EnableCors("DefaultPolicy")]
+    public async Task<IActionResult> GetAllPromocoes([FromServices] IPromocaoService service)
+    {
+        var promocao = await service.GetAllPromocoes();
+        return Ok(promocao);
+    }
+
+    [HttpDelete]
+    [EnableCors("DefaultPolicy")]
+    public IActionResult DeletePromocao()
+    {
+        throw new NotImplementedException();
+    }
 }
+
 

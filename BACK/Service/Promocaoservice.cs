@@ -1,34 +1,33 @@
 namespace BACK.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 using DTO;
 using Model;
 
 public class PromocaoService : IPromocaoService
 {
-    PodraoBcContext ctx;
-    public PromocaoService(PodraoBcContext ctx)
+    PodraoBnc1Context ctx;
+    public PromocaoService(PodraoBnc1Context ctx)
     {
         this.ctx = ctx;
     }
 
     public async Task Create(PromocaoData data)
     {
-        Promocao promocao = new Promocao();
-     
-        promocao.NomePromocao = data.NomePromocao;
-        promocao.Preco = data.Preco;
-        promocao.DescricaoPromocao = data.DescricaoPromocao;
-        
+        Promocao promocao = new Promocao
+        {
+            NomePromocao = data.NomePromocao,
+            Preco = data.Preco,
+            DescricaoPromocao = data.DescricaoPromocao,
+            // ProdutoId = data.ProdutoId
+        };
+
         this.ctx.Add(promocao);
         await this.ctx.SaveChangesAsync();
     }
-    // public async Task<Produto> GetByProcurar(string procurar)
-    // {
-    //     var query =
-    //         from u in ctx.Produtos
-    //         where u.NomeProduto == procurar
-    //         select u;
-        
-    //     return await query.FirstOrDefaultAsync();
-    // }
+    public async Task<List<Promocao>> GetAllPromocoes()
+    {
+        return await ctx.Promocaos.ToListAsync();
+    }
 }

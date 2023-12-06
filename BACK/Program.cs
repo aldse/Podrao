@@ -12,7 +12,7 @@ using BACK.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<PodraoBcContext>();
+builder.Services.AddScoped<PodraoBnc1Context>();
 builder.Services.AddTransient<IClienteservice, ClienteService>();
 builder.Services.AddTransient<IProdutoService, ProdutoService>();
 builder.Services.AddTransient<IPromocaoService, PromocaoService>();

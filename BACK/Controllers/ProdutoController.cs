@@ -8,7 +8,6 @@ using DTO;
 using Services;
 
 
-
 [ApiController]
 [Route("produto")]
 
@@ -48,7 +47,7 @@ public class ProdutoController : ControllerBase
 
     [HttpDelete]
     [EnableCors("DefaultPolicy")]
-    public IActionResult DeleteProduct()
+    public IActionResult DeleteProduto()
     {
         throw new NotImplementedException();
     }

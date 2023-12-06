@@ -18,6 +18,4 @@ public partial class Produto
     public virtual ICollection<Cardapio> Cardapios { get; } = new List<Cardapio>();
 
     public virtual ICollection<Pedido> Pedidos { get; } = new List<Pedido>();
-
-    public virtual ICollection<Promocao> Promocaos { get; } = new List<Promocao>();
 }

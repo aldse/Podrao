@@ -83,73 +83,73 @@ public class UserController : ControllerBase
         throw new NotImplementedException();
     }
 
-    [HttpGet("image")]
-    [EnableCors("DefaultPolicy")]
-    public async Task<IActionResult> GetImage(
-        int photoId,
-        [FromServices]ISecurityService security,
-        [FromServices]PodraoBcContext ctx)
-    {
-        var query =
-            from image in ctx.Imagems
-            where image.Id == photoId
-            select image;
+    // [HttpGet("image")]
+    // [EnableCors("DefaultPolicy")]
+    // public async Task<IActionResult> GetImage(
+    //     int photoId,
+    //     [FromServices]ISecurityService security,
+    //     [FromServices]PodraoBcContext ctx)
+    // {
+    //     var query =
+    //         from image in ctx.Imagems
+    //         where image.Id == photoId
+    //         select image;
         
-        var photo = await query.FirstOrDefaultAsync();
-        if (photo is null)
-            return NotFound();
+    //     var photo = await query.FirstOrDefaultAsync();
+    //     if (photo is null)
+    //         return NotFound();
 
-        return File(photo.Foto, "image/jpeg");
-    }
+    //     return File(photo.Foto, "image/jpeg");
+    // }
 
-    [DisableRequestSizeLimit]
-    [HttpPut("image")]
-    [EnableCors("DefaultPolicy")]
-    public async Task<IActionResult> AddImage(
-        [FromServices]ISecurityService security
-    )
-    {
-        var jwtData = Request.Form["jwt"];
-        var jwtObj = JsonSerializer
-            .Deserialize<JwtToken>(jwtData);
-        var jwt = jwtObj.jwt;
+    // [DisableRequestSizeLimit]
+    // [HttpPut("image")]
+    // [EnableCors("DefaultPolicy")]
+    // public async Task<IActionResult> AddImage(
+    //     [FromServices]ISecurityService security
+    // )
+    // {
+    //     var jwtData = Request.Form["jwt"];
+    //     var jwtObj = JsonSerializer
+    //         .Deserialize<JwtToken>(jwtData);
+    //     var jwt = jwtObj.jwt;
 
-        var userOjb = await security
-            .ValidateJwt<JwtPayload>(jwt);
-        if (userOjb is null)
-            return Unauthorized();
-        var userId = userOjb.id;
+    //     var userOjb = await security
+    //         .ValidateJwt<JwtPayload>(jwt);
+    //     if (userOjb is null)
+    //         return Unauthorized();
+    //     var userId = userOjb.id;
 
-        var files = Request.Form.Files;
-        if (files is null || files.Count == 0)
-            return BadRequest();
+    //     var files = Request.Form.Files;
+    //     if (files is null || files.Count == 0)
+    //         return BadRequest();
         
-        var file = Request.Form.Files[0];
-        if (file.Length < 1)
-            return BadRequest();
+    //     var file = Request.Form.Files[0];
+    //     if (file.Length < 1)
+    //         return BadRequest();
  
-        using MemoryStream ms = new MemoryStream();
-        await file.CopyToAsync(ms);
-        var data = ms.GetBuffer();
+    //     using MemoryStream ms = new MemoryStream();
+    //     await file.CopyToAsync(ms);
+    //     var data = ms.GetBuffer();
 
-        Imagem img = new Imagem();
-        img.Foto = data;
+    //     Imagem img = new Imagem();
+    //     img.Foto = data;
 
-        PodraoBcContext ctx = new PodraoBcContext();
-        ctx.Add(img);
-        await ctx.SaveChangesAsync();
+    //     PodraoBnc1Context ctx = new PodraoBnc1Context();
+    //     ctx.Add(img);
+    //     await ctx.SaveChangesAsync();
         
-        var query =
-            from user in ctx.Clientes
-            where user.Id == userId
-            select user;
-        var loggedUser = query.FirstOrDefault();
-        loggedUser.ImagemId = img.Id;
+    //     var query =
+    //         from user in ctx.Clientes
+    //         where user.Id == userId
+    //         select user;
+    //     var loggedUser = query.FirstOrDefault();
+    //     loggedUser.ImagemId = img.Id;
 
-        await ctx.SaveChangesAsync();
+    //     await ctx.SaveChangesAsync();
 
-        return Ok();
-    }
+    //     return Ok();
+    // }
 
     [HttpDelete("image")]
     [EnableCors("DefaultPolicy")]

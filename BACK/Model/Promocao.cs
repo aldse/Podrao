@@ -15,11 +15,7 @@ public partial class Promocao
 
     public decimal Preco { get; set; }
 
-    public int ProdutoId { get; set; }
-
     public virtual ICollection<Pedido> Pedidos { get; } = new List<Pedido>();
-
-    public virtual Produto Produto { get; set; } = null!;
 
     public virtual ICollection<Totem> Totems { get; } = new List<Totem>();
 }

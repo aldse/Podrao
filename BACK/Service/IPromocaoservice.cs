@@ -8,6 +8,6 @@ using Model;
 public interface IPromocaoService
 {
     Task Create(PromocaoData data);
-    // Task<Produto> GetByProcurar(string procurar);
+    Task<List<Promocao>> GetAllPromocoes();
 }
 
